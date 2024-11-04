@@ -6,7 +6,6 @@ ENV LANG C.UTF-8
 ENV	LC_ALL C.UTF-8
 
 # Required for uwsgi
-# Install build tools and dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     gcc \
