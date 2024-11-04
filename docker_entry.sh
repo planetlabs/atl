@@ -31,7 +31,8 @@ case "$1" in
         ;;
     "api")
         shift
-        FLASK_APP=/opt/api/datalake_api/app.py flask run "$@"
+        echo "Starting uWSGI server"
+        uwsgi --ini /opt/datalake.uwsgi.ini
         ;;
     "ingester")
         shift

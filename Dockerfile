@@ -5,6 +5,17 @@ MAINTAINER brian <brian@planet.com>
 ENV LANG C.UTF-8
 ENV	LC_ALL C.UTF-8
 
+# Required for uwsgi
+# Install build tools and dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    python3-dev \
+    libpcre3-dev \
+    libssl-dev \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
 # TODO: keep requirements in one place
 RUN pip install \
     blinker>=1.4 \
@@ -29,7 +40,14 @@ RUN pip install \
     pyinotify>=0.9.4, \
     raven>=5.0.0 \
     'tox>4,<5' \
-    'datalake<2'
+    'datalake<2' \
+    uwsgi
+
+# uwsgi statsd
+RUN uwsgi --build-plugin https://github.com/Datadog/uwsgi-dogstatsd && \
+    mkdir -p /var/log/uwsgi
+
+
 
 RUN mkdir -p /opt/
 COPY . /opt/
